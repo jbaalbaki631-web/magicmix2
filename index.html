@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RCR | Magic Mix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body {
+            overflow-x: hidden;
+            height: 100%;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;900&display=swap');
+        body { font-family: 'Lexend', sans-serif; }
+
+        .v-box { position: relative; padding-bottom: 177.78%; height: 0; overflow: hidden; }
+        .v-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 1rem; object-fit: cover; }
+
+        /* Stacked Hero Styles (image first, full width; never cropped) */
+        .hero-container {
+            display: flex;
+            flex-direction: column;
+            background-color: #f8fafc;
+        }
+
+        .hero-image {
+            width: 100%;
+            background-color: transparent;
+        }
+
+        .wa-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+        .wa-float:hover { transform: scale(1.1); }
+
+        /* Product cards: keep titles aligned at bottom */
+        .product-grid > div { height: 100%; display: flex; flex-direction: column; }
+        .product-grid > div > button { margin-top: auto; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <a href="https://wa.me/96170769661" class="wa-float p-3 flex items-center justify-center" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+        </svg>
+    </a>
+
+    <nav class="p-4 md:p-6 bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-4 justify-between items-center">
+            <a href="index.html"><img src="l.png" alt="Logo" class="h-12 md:h-16 w-auto object-contain"></a>
+            <div class="flex items-center gap-6 font-bold text-xs md:text-sm uppercase tracking-wider">
+                <a href="a.html" class="text-slate-500 hover:text-blue-700 transition">About Us</a>
+                <a href="https://www.instagram.com/magicmix.lb" target="_blank" rel="noopener noreferrer" class="text-slate-500 hover:text-pink-600 transition">Instagram</a>
+                <button onclick="openStores()" class="bg-blue-700 text-white px-4 py-2 rounded-full hover:bg-blue-800 transition shadow-md">Find Stores</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-container border-b border-slate-200 bg-slate-50">
+        <div class="hero-image">
+            <img src="h.png" alt="Magic Mix Hero" class="block w-full h-auto">
+        </div>
+
+        <div class="hero-text flex items-center p-8 md:p-12 lg:py-20 lg:pl-20 lg:pr-4">
+            <div class="max-w-2xl">
+                <div class="mt-10 mb-8">
+                    <a href="#p" class="bg-blue-700 text-white px-10 py-4 rounded-full font-bold hover:bg-blue-800 transition-all shadow-xl shadow-blue-100 inline-block">
+                        View Products
+                    </a>
+                </div>
+                <h1 class="text-blue-800 font-black text-xs uppercase tracking-[0.2em] mb-4">Established 2019</h1>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 mb-6 leading-tight">
+                    Innovative Flavor Solutions.
+                </h2>
+                <div class="space-y-4 text-slate-600 leading-relaxed text-sm md:text-base lg:text-lg">
+                    <p>
+                        Since our founding in 2019, <strong>Royal Retail</strong> has been committed to developing innovative products that go beyond what’s found on store shelves—transforming secret formulations into ready-to-use solutions that meet global quality standards.
+                    </p>
+                    <p>
+                        As the proud creators of <strong>Magic Mix</strong>, we’ve redefined the cooking and cleaning experience, making it simple, enjoyable, and professional. From cleaning chicken and fish to seasoning them with rich, broasted spices, Magic Mix empowers both home cooks and professional chefs to bring out the best in every dish.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="p" class="max-w-7xl mx-auto px-6 py-20">
+        <div class="mb-16">
+            <h2 class="text-3xl font-black text-slate-900 mb-8 flex items-center gap-4">
+                Retail Products
+                <span class="h-1 flex-grow bg-slate-100 rounded-full"></span>
+            </h2>
+
+            <div class="product-grid grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-white rounded-3xl p-4 shadow-lg border border-slate-100 flex flex-col">
+                    <div class="bg-white border border-slate-50 rounded-2xl overflow-hidden mb-6 flex items-center justify-center p-8 relative cursor-pointer group"
+                         onclick="openInfo('Chicken & Fish Cleaner 85G', 'Cleans up to 1-2 chickens or 1-2 kg of fish|24 bags per carton|100% removes bad smell, rancidity, E. coli, and salmonella|USAGE INSTRUCTIONS|85 ml of Magic Mix + 1 liter of water|Soak in a bowl for 10 minutes|For fish: Use 85 ml per 1 kg of fish', 'clean85.png', 'clean_chicken.mp4', 'clean_fish.mp4')">
+
+                        <button onclick="event.stopPropagation(); openInfo('Chicken & Fish Cleaner 85G', 'Cleans up to 1-2 chickens or 1-2 kg of fish|24 bags per carton|100% removes bad smell, rancidity, E. coli, and salmonella|USAGE INSTRUCTIONS|85 ml of Magic Mix + 1 liter of water|Soak in a bowl for 10 minutes|For fish: Use 85 ml per 1 kg of fish', 'clean85.png', 'clean_chicken.mp4', 'clean_fish.mp4')" class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 hover:text-white transition z-10 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            How to Use
+                        </button>
+
+                        <div class="flex gap-2 w-full">
+                            <img src="clean85.png" alt="Cleaner 85G Front" class="w-1/2 group-hover:scale-105 transition duration-500 max-h-64 object-contain">
+                            <img src="clean85_back.png" alt="Cleaner 85G Back" class="w-1/2 group-hover:scale-105 transition duration-500 max-h-64 object-contain">
+                        </div>
+                    </div>
+
+                    <button onclick="openInfo('Chicken & Fish Cleaner 85G', 'Cleans up to 1-2 chickens or 1-2 kg of fish|24 bags per carton|100% removes bad smell, rancidity, E. coli, and salmonella|USAGE INSTRUCTIONS|85 ml of Magic Mix + 1 liter of water|Soak in a bowl for 10 minutes|For fish: Use 85 ml per 1 kg of fish', 'clean85.png', 'clean_chicken.mp4', 'clean_fish.mp4')" class="text-left group min-h-[4rem]">
+                        <h3 class="text-2xl font-bold group-hover:text-blue-700 transition">Chicken & Fish Cleaner 85G</h3>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl p-4 shadow-lg border border-slate-100 flex flex-col">
+                    <div class="bg-white border border-slate-50 rounded-2xl overflow-hidden mb-6 flex items-center justify-center p-8 relative cursor-pointer group"
+                         onclick="openInfo('Chicken & Fish Cleaner 500G', 'Clean up to 6 chickens or 6 kg of fish|12 bottles per carton|100% removes bad smell, rancidity, E. coli, salmonella|USAGE INSTRUCTIONS|1 coffee cup (50 ml) + 1 liter of water|Soak in a bowl for 10 minutes|For fish: Use 1 cup per 1 kg of fish', 'clean500.png', 'clean_chicken.mp4', 'clean_fish.mp4')">
+                        <button onclick="event.stopPropagation(); openInfo('Chicken & Fish Cleaner 500G', 'Clean up to 6 chickens or 6 kg of fish|12 bottles per carton|100% removes bad smell, rancidity, E. coli, salmonella|USAGE INSTRUCTIONS|1 coffee cup (50 ml) + 1 liter of water|Soak in a bowl for 10 minutes|For fish: Use 1 cup per 1 kg of fish', 'clean500.png', 'clean_chicken.mp4', 'clean_fish.mp4')" class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 hover:text-white transition z-10 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            How to Use
+                        </button>
+                        <img src="clean500.png" alt="Cleaner 500G" class="group-hover:scale-105 transition duration-500 max-h-64 object-contain">
+                    </div>
+                    <button onclick="openInfo('Chicken & Fish Cleaner 500G', 'Clean up to 6 chickens or 6 kg of fish|12 bottles per carton|100% removes bad smell, rancidity, E. coli, salmonella|USAGE INSTRUCTIONS|1 coffee cup (50 ml) + 1 liter of water|Soak in a bowl for 10 minutes|For fish: Use 1 cup per 1 kg of fish', 'clean500.png', 'clean_chicken.mp4', 'clean_fish.mp4')" class="text-left group min-h-[4rem]">
+                        <h3 class="text-2xl font-bold group-hover:text-blue-700 transition">Chicken & Fish Cleaner 500G</h3>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl p-4 shadow-lg border border-slate-100 flex flex-col">
+                    <div class="bg-white border border-slate-50 rounded-2xl overflow-hidden mb-6 flex items-center justify-center p-8 relative cursor-pointer group"
+                         onclick="openInfo('Chicken & Fish Cleaner 1KG', 'Cleans up to 12 chickens or 12 kg of fish|12 bottles per carton|100% removes bad smell, rancidity, E. coli, salmonella|USAGE INSTRUCTIONS|1 coffee cup (50 ml) + 1 liter of water|Soak in a bowl for 10 minutes|For fish: Use 1 cup per 1 kg of fish', 'clean1000.png', 'clean_chicken.mp4', 'clean_fish.mp4')">
+                        <button onclick="event.stopPropagation(); openInfo('Chicken & Fish Cleaner 1KG', 'Cleans up to 12 chickens or 12 kg of fish|12 bottles per carton|100% removes bad smell, rancidity, E. coli, salmonella|USAGE INSTRUCTIONS|1 coffee cup (50 ml) + 1 liter of water|Soak in a bowl for 10 minutes|For fish: Use 1 cup per 1 kg of fish', 'clean1000.png', 'clean_chicken.mp4', 'clean_fish.mp4')" class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 hover:text-white transition z-10 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            How to Use
+                        </button>
+                        <img src="clean1000.png" alt="Cleaner 1KG" class="group-hover:scale-105 transition duration-500 max-h-64 object-contain">
+                    </div>
+                    <button onclick="openInfo('Chicken & Fish Cleaner 1KG', 'Cleans up to 12 chickens or 12 kg of fish|12 bottles per carton|100% removes bad smell, rancidity, E. coli, salmonella|USAGE INSTRUCTIONS|1 coffee cup (50 ml) + 1 liter of water|Soak in a bowl for 10 minutes|For fish: Use 1 cup per 1 kg of fish', 'clean1000.png', 'clean_chicken.mp4', 'clean_fish.mp4')" class="text-left group min-h-[4rem]">
+                        <h3 class="text-2xl font-bold group-hover:text-blue-700 transition">Chicken & Fish Cleaner 1KG</h3>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl p-4 shadow-lg border border-slate-100 flex flex-col">
+                    <div class="bg-white border border-slate-50 rounded-2xl overflow-hidden mb-6 flex items-center justify-center p-8 relative cursor-pointer group"
+                         onclick="openInfo('Fish Broasted 200g', 'Enough for 24 fish nuggets and 1kg of potatoes|12 bags per carton|USAGE INSTRUCTIONS|Season the fish or potatoes while they are wet|Wrap the fish and place it in the refrigerator for an hour before frying', 'f.jpg', 'fv.mp4')">
+                        <button onclick="event.stopPropagation(); play('fv.mp4')" class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 hover:text-white transition z-10 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            How to Use
+                        </button>
+                        <img src="f.jpg" alt="Fish" class="group-hover:scale-105 transition duration-500 max-h-64 object-contain">
+                    </div>
+                    <button onclick="openInfo('Fish Broasted 200g', 'Enough for 24 fish nuggets and 1kg of potatoes|12 bags per carton|USAGE INSTRUCTIONS|Season the fish or potatoes while they are wet|Wrap the fish and place it in the refrigerator for an hour before frying', 'f.jpg', 'fv.mp4')" class="text-left group min-h-[4rem]">
+                        <h3 class="text-2xl font-bold group-hover:text-blue-700 transition">Fish Broasted 200g</h3>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl p-4 shadow-lg border border-slate-100 flex flex-col">
+                    <div class="bg-white border border-slate-50 rounded-2xl overflow-hidden mb-6 flex items-center justify-center p-8 relative cursor-pointer group"
+                         onclick="openInfo('Chicken Broasted 200g', 'Enough for 1 chicken and 1 kg of potatoes or 2 chickens|12 bags per carton|USAGE INSTRUCTIONS|Prick the chicken pieces with a knife from side to side|Season the chicken or potatoes while they are wet|Wrap the chicken and place in the refrigerator for one hour before frying', 'c.jpg', 'cv.mp4')">
+                        <button onclick="event.stopPropagation(); play('cv.mp4')" class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 hover:text-white transition z-10 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            How to Use
+                        </button>
+                        <img src="c.jpg" alt="Chicken" class="group-hover:scale-105 transition duration-500 max-h-64 object-contain">
+                    </div>
+                    <button onclick="openInfo('Chicken Broasted 200g', 'Enough for 1 chicken and 1 kg of potatoes or 2 chickens|12 bags per carton|USAGE INSTRUCTIONS|Prick the chicken pieces with a knife from side to side|Season the chicken or potatoes while they are wet|Wrap the chicken and place in the refrigerator for one hour before frying', 'c.jpg', 'cv.mp4')" class="text-left group min-h-[4rem]">
+                        <h3 class="text-2xl font-bold group-hover:text-blue-700 transition">Chicken Broasted 200g</h3>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl p-4 shadow-lg border border-slate-100 flex flex-col">
+                    <div class="bg-white border border-slate-50 rounded-2xl overflow-hidden mb-6 flex items-center justify-center p-8 relative cursor-pointer group"
+                         onclick="openInfo('Crispy Chicken 200g', 'Seasons 24 tenders (light crunch) or 15 tenders (extra crunch)|12 bags per carton|USAGE INSTRUCTIONS|Slice the chicken breast fillets thin|Season the chicken while it is wet|For extra crunch: dip in water for 1 second and repeat the coating step', 's.jpg', 'sv.mp4')">
+                        <button onclick="event.stopPropagation(); play('sv.mp4')" class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 hover:text-white transition z-10 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            How to Use
+                        </button>
+                        <img src="s.jpg" alt="Spicy" class="group-hover:scale-105 transition duration-500 max-h-64 object-contain">
+                    </div>
+                    <button onclick="openInfo('Crispy Chicken 200g', 'Seasons 24 tenders (light crunch) or 15 tenders (extra crunch)|12 bags per carton|USAGE INSTRUCTIONS|Slice the chicken breast fillets thin|Season the chicken while it is wet|For extra crunch: dip in water for 1 second and repeat the coating step', 's.jpg', 'sv.mp4')" class="text-left group min-h-[4rem]">
+                        <h3 class="text-2xl font-bold group-hover:text-blue-700 transition">Crispy Chicken 200g</h3>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="text-3xl font-black text-slate-900 mb-8 flex items-center gap-4">
+                Commercial Products
+                <span class="h-1 flex-grow bg-slate-100 rounded-full"></span>
+            </h2>
+
+            <div class="product-grid grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-white rounded-3xl p-4 shadow-lg border border-slate-100 flex flex-col">
+                    <div class="bg-white border border-slate-50 rounded-2xl overflow-hidden mb-6 flex items-center justify-center p-8 relative cursor-pointer group"
+                 onclick="openInfo('Chicken & Fish Cleaner Gallon 5KG', 'Cleans up to 250 chickens or 100 kg of fish|4 gallons per carton|100% removes bad smell, rancidity, E. coli, and salmonella|USAGE INSTRUCTIONS|500 ml of Magic Mix + 10 liters of water|Soak in a bowl for 10 minutes (cleans up to 25 chickens)|For fish: Use 500 ml + 10 liters of water per 10 kg of fish', 'cleaner5000.png', 'clean_chicken.mp4', 'clean_fish.mp4')">
+                        <button onclick="event.stopPropagation(); openInfo('Chicken & Fish Cleaner Gallon 5KG', 'Cleans up to 250 chickens or 100 kg of fish|4 gallons per carton|100% removes bad smell, rancidity, E. coli, and salmonella|USAGE INSTRUCTIONS|500 ml of Magic Mix + 10 liters of water|Soak in a bowl for 10 minutes (cleans up to 25 chickens)|For fish: Use 500 ml + 10 liters of water per 10 kg of fish', 'cleaner5000.png', 'clean_chicken.mp4', 'clean_fish.mp4')" class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 hover:text-white transition z-10 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            How to Use
+                        </button>
+                        <img src="cleaner5000.png" alt="Cleaner Gallon" class="group-hover:scale-105 transition duration-500 max-h-64 object-contain">
+                    </div>
+                    <button onclick="openInfo('Chicken & Fish Cleaner Gallon 5KG', 'Cleans up to 250 chickens or 100 kg of fish|4 gallons per carton|100% removes bad smell, rancidity, E. coli, and salmonella|USAGE INSTRUCTIONS|500 ml of Magic Mix + 10 liters of water|Soak in a bowl for 10 minutes (cleans up to 25 chickens)|For fish: Use 500 ml + 10 liters of water per 10 kg of fish', 'cleaner5000.png', 'clean_chicken.mp4', 'clean_fish.mp4')" class="text-left group min-h-[4rem]">
+                        <h3 class="text-2xl font-bold group-hover:text-blue-700 transition">Chicken & Fish Cleaner Gallon 5KG</h3>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl p-4 shadow-lg border border-slate-100 flex flex-col">
+                    <div class="bg-white border border-slate-50 rounded-2xl overflow-hidden mb-6 flex items-center justify-center p-8 relative cursor-pointer group"
+                         onclick="openInfo('Chicken Broasted Spices 750G', 'Mix for up to 47 chickens|6 bags per carton|Original spices blend|USAGE INSTRUCTIONS|Mix each bag with 5.5kg flour and 300g salt|Prick chicken pieces with a knife from side to side|Season chicken or potatoes while they are wet|Wrap and refrigerate for one hour before frying', 'broasted750.png', 'cleanv.mp4')">
+                        <button onclick="event.stopPropagation(); play('cleanv.mp4')" class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 hover:text-white transition z-10 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            How to Use
+                        </button>
+                        <img src="broasted750.png" alt="Broasted Spices" class="group-hover:scale-105 transition duration-500 max-h-64 object-contain">
+                    </div>
+                    <button onclick="openInfo('Chicken Broasted Spices 750G', 'Mix for up to 47 chickens|6 bags per carton|Original spices blend|USAGE INSTRUCTIONS|Mix each bag with 5.5kg flour and 300g salt|Prick chicken pieces with a knife from side to side|Season chicken or potatoes while they are wet|Wrap and refrigerate for one hour before frying', 'broasted750.png', 'cleanv.mp4')" class="text-left group min-h-[4rem]">
+                        <h3 class="text-2xl font-bold group-hover:text-blue-700 transition">Chicken Broasted Spices 750G</h3>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl p-4 shadow-lg border border-slate-100 flex flex-col">
+                    <div class="bg-white border border-slate-50 rounded-2xl overflow-hidden mb-6 flex items-center justify-center p-8 relative cursor-pointer group"
+                         onclick="openInfo('Chicken Crispy Spices 500G', 'Mix up to 600g chickens for a one-time coating|6 bags per carton|USAGE INSTRUCTIONS|Mix each bag with 5kg flour and 300g salt|Cut chicken breast fillets into thin slices|Season while wet|For perfect crunch: dip in water for 1 second and repeat coating step', 'crispy500.png', 'cleanv.mp4')">
+                        <button onclick="event.stopPropagation(); play('cleanv.mp4')" class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 hover:text-white transition z-10 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            How to Use
+                        </button>
+                        <img src="crispy500.png" alt="Crispy Spices" class="group-hover:scale-105 transition duration-500 max-h-64 object-contain">
+                    </div>
+                    <button onclick="openInfo('Chicken Crispy Spices 500G', 'Mix up to 600g chickens for a one-time coating|6 bags per carton|USAGE INSTRUCTIONS|Mix each bag with 5kg flour and 300g salt|Cut chicken breast fillets into thin slices|Season while wet|For perfect crunch: dip in water for 1 second and repeat coating step', 'crispy500.png', 'cleanv.mp4')" class="text-left group min-h-[4rem]">
+                        <h3 class="text-2xl font-bold group-hover:text-blue-700 transition">Chicken Crispy Spices 500G</h3>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white border-t border-slate-200 pt-16 pb-8 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+            <div>
+                <img src="l.png" class="h-12 mb-6 grayscale opacity-70" alt="RCR Logo">
+                <p class="text-slate-500 text-sm leading-relaxed max-w-sm">
+                    Perfecting the art of the "Magic Mix" since 2019. Bringing professional kitchen quality to homes worldwide.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-bold uppercase text-xs tracking-widest mb-6">Contact Us</h4>
+                    <ul class="text-slate-600 space-y-3 text-sm font-medium">
+                        <li>📞 +961 70 769 661</li>
+                        <li>✉️ rcr.lb@outlook.com</li>
+                        <li>📍 Beirut, Lebanon</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold uppercase text-xs tracking-widest mb-6">Quick Links</h4>
+                    <ul class="text-slate-600 space-y-4 text-sm">
+                        <li class="flex items-center gap-4">
+                            <a href="https://www.instagram.com/magicmix.lb" target="_blank" rel="noopener noreferrer" class="hover:text-pink-600 transition-colors" aria-label="Instagram">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.844.047 1.097.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.facebook.com/RCR.Lb" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition-colors" aria-label="Facebook">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.tiktok.com/@magicmix.lb" target="_blank" rel="noopener noreferrer" class="hover:text-black transition-colors" aria-label="TikTok">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li><button onclick="openStores()" class="hover:text-blue-700 transition">Find a Store</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-slate-400 text-[10px] uppercase tracking-widest border-t border-slate-100 pt-8">
+            &copy; 2026 Royal Retail | Magic Mix. All Rights Reserved.
+        </div>
+    </footer>
+
+    <div id="videoModal" class="fixed inset-0 bg-black/90 z-[60] hidden flex items-center justify-center p-4">
+        <button onclick="closeVideo()" class="absolute top-6 right-6 text-white hover:scale-110 transition" aria-label="Close video">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+        </button>
+        <div class="w-full max-w-[400px] aspect-[9/16] bg-black rounded-3xl overflow-hidden shadow-2xl">
+            <video id="modalVideo" controls class="w-full h-full object-cover">
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div id="infoModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2rem] max-w-lg w-full overflow-hidden shadow-2xl transform transition-all flex flex-col max-h-[90vh]">
+            <div class="p-8 pb-4 flex justify-between items-start flex-shrink-0">
+                <h2 id="modalTitle" class="text-3xl font-black text-slate-900"></h2>
+                <button onclick="closeInfo()" class="text-slate-400 hover:text-slate-900 p-2" aria-label="Close details">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="px-8 pb-4 overflow-y-auto custom-scrollbar flex-grow">
+                <img id="modalImg" src="" class="w-full h-64 object-contain bg-white border border-slate-50 rounded-2xl mb-6 flex-shrink-0" alt="">
+
+                <div id="modalVideoBtnWrap" class="mb-4 hidden">
+                    <div class="flex flex-wrap gap-3">
+                        <button type="button" id="modalVideoBtnChicken" class="bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-blue-800 transition flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            How to Use
+                        </button>
+                        <button type="button" id="modalVideoBtnFish" class="bg-slate-900 text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-slate-800 transition flex items-center gap-2 hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            Fish
+                        </button>
+                    </div>
+                </div>
+
+                <div id="modalDesc" class="text-slate-600 leading-relaxed mb-4"></div>
+            </div>
+
+            <div class="p-8 pt-4 flex-shrink-0">
+                <button onclick="closeInfo()" class="w-full bg-blue-700 text-white py-4 rounded-xl font-bold hover:bg-blue-800 transition">Close Details</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="storeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2rem] max-w-md w-full max-h-[90vh] flex flex-col p-8 shadow-2xl">
+
+            <div class="flex justify-between items-center mb-6 flex-shrink-0">
+                <h2 class="text-2xl font-black text-slate-900 leading-tight">You can find our products in:</h2>
+                <button onclick="closeStores()" class="text-slate-400 hover:text-slate-900 transition p-2" aria-label="Close stores">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+
+            <div class="space-y-4 overflow-y-auto pr-2 custom-scrollbar flex-grow">
+                <details class="group border border-slate-100 rounded-xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-4 cursor-pointer bg-slate-50 list-none font-bold text-slate-700">
+                        <span>COOP/Al Makhazen/Freshway 📞 1265</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 text-sm text-slate-600 bg-white border-t border-slate-100">
+                        <p class="font-bold mb-2 underline">Branches:</p>
+                        <ul class="grid grid-cols-2 gap-1 list-disc ml-5">
+                            <li>Khalde</li><li>Aramoun</li><li>Bshamoun</li><li>Sabra</li><li>Salim Salam</li><li>Zekak Al Blat</li><li>Zarif</li><li>Mar Elias</li><li>Verdun</li><li>Al Hamra</li><li>Ras Beirut</li><li>Ramle El Bayda</li><li>Broumana</li><li>Awkar</li><li>Debbieh</li><li>Ketermaya</li><li>Chehime</li><li>Aley-Piscine</li><li>Aley-Malaab</li><li>Bhamdoun</li><li>Hammana</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details class="group border border-slate-100 rounded-xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-4 cursor-pointer bg-slate-50 list-none font-bold text-slate-700">
+                        <span>Souk El Jemle Aramoun 📞 05 807 321</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 text-sm text-slate-600 bg-white border-t border-slate-100">📍 Aramoun Main Branch</div>
+                </details>
+
+                <details class="group border border-slate-100 rounded-xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-4 cursor-pointer bg-slate-50 list-none font-bold text-slate-700">
+                        <span>Baydoun Supermarket 📞 78 805 248</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 text-sm text-slate-600 bg-white border-t border-slate-100">
+                        <p class="font-bold mb-2 underline">Branches:</p>
+                        <ul class="list-disc ml-5 space-y-1">
+                            <li>Aramoun</li><li>Haret Hreik</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details class="group border border-slate-100 rounded-xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-4 cursor-pointer bg-slate-50 list-none font-bold text-slate-700">
+                        <span>Carrefour 📞 01 296 300</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 text-sm text-slate-600 bg-white border-t border-slate-100">
+                        <p class="font-bold mb-2 underline">Branches:</p>
+                        <ul class="list-disc ml-5 space-y-1">
+                            <li>Bshamoun</li><li>City Center - Hazmieh</li><li>Mousaitbeh</li><li>City Mall - Dora</li><li>Kousba</li><li>Aley</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details class="group border border-slate-100 rounded-xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-4 cursor-pointer bg-slate-50 list-none font-bold text-slate-700">
+                        <span>Al Wataniya Supermarket 📞 01 558 184</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 text-sm text-slate-600 bg-white border-t border-slate-100">
+                        <p class="font-bold mb-2 underline">Branches:</p>
+                        <ul class="list-disc ml-5 space-y-1">
+                            <li>Chouaifat</li><li>Haret Hreik</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details class="group border border-slate-100 rounded-xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-4 cursor-pointer bg-slate-50 list-none font-bold text-slate-700">
+                        <span>Amleya Hypermarket 📞 01 454 021/2</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 text-sm text-slate-600 bg-white border-t border-slate-100">
+                        <p class="font-bold mb-2 underline">Branches:</p>
+                        <ul class="list-disc ml-5 space-y-1">
+                            <li>Tarik El Matar</li><li>Chiyah - Mouawad</li><li>Al Ghazieh</li><li>Sour</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details class="group border border-slate-100 rounded-xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-4 cursor-pointer bg-slate-50 list-none font-bold text-slate-700">
+                        <span>Rammal 📞 03 955 205</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </summary>
+                    <div class="p-4 text-sm text-slate-600 bg-white border-t border-slate-100">
+                        <p class="font-bold mb-2 underline">Branches:</p>
+                        <ul class="list-disc ml-5 space-y-1">
+                            <li>Borj El Barajneh (Tahwita)</li><li>Ghoubeiry</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 font-bold text-slate-700">Al Zein - Borj El Barajneh 📞 70 040 891</div>
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 font-bold text-slate-700">Karout Mall - Galerie Semaan 📞 01 542 077</div>
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 font-bold text-slate-700">Supermarket Daou - Ras Al Harf 📞 05 262 625</div>
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 font-bold text-slate-700">MS Market - Charoun 📞 76 182 841</div>
+                <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 font-bold text-slate-700">Deeb MiniMarket - Sour</div>
+            </div>
+
+            <div class="mt-6 flex-shrink-0">
+                <button onclick="closeStores()" class="w-full bg-blue-700 text-white py-4 rounded-xl font-bold hover:bg-blue-800 transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function play(videoSrc) {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            video.src = videoSrc;
+            modal.classList.remove('hidden');
+            video.play();
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideo() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            modal.classList.add('hidden');
+            video.pause();
+            video.src = "";
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+        }
+
+        function openInfo(title, desc, img, videoSrcOrChicken, fishVideoSrc) {
+            document.getElementById('modalTitle').innerText = title;
+
+            const descElement = document.getElementById('modalDesc');
+            descElement.innerHTML = '';
+
+            if (desc.includes('|')) {
+                const points = desc.split('|');
+                let listHtml = '<div class="space-y-4 mt-2">';
+
+                points.forEach(point => {
+                    const cleanPoint = point.trim();
+                    if (cleanPoint.includes('USAGE INSTRUCTIONS')) {
+                        listHtml += `<div class="font-black text-slate-900 uppercase text-xs tracking-widest mt-6 mb-2">${cleanPoint}</div>`;
+                    } else {
+                        listHtml += `<div class="flex items-start gap-3"><span class="text-blue-600 font-bold">•</span><span class="text-slate-600 text-sm leading-relaxed">${cleanPoint}</span></div>`;
+                    }
+                });
+
+                listHtml += '</div>';
+                descElement.innerHTML = listHtml;
+            } else {
+                descElement.innerText = desc;
+            }
+
+            const imgEl = document.getElementById('modalImg');
+            imgEl.src = img;
+            imgEl.alt = title;
+
+            const videoWrap = document.getElementById('modalVideoBtnWrap');
+            const chickenBtn = document.getElementById('modalVideoBtnChicken');
+            const fishBtn = document.getElementById('modalVideoBtnFish');
+
+            const hasChicken = !!videoSrcOrChicken;
+            const hasFish = !!fishVideoSrc;
+
+            if (hasChicken || hasFish) {
+                videoWrap.classList.remove('hidden');
+
+                if (hasChicken && hasFish) {
+                    chickenBtn.innerHTML = `${chickenBtn.querySelector('svg')?.outerHTML || ''} Chicken`;
+                    fishBtn.classList.remove('hidden');
+                    fishBtn.innerHTML = `${fishBtn.querySelector('svg')?.outerHTML || ''} Fish`;
+                } else {
+                    chickenBtn.innerHTML = `${chickenBtn.querySelector('svg')?.outerHTML || ''} How to Use`;
+                    fishBtn.classList.add('hidden');
+                }
+
+                chickenBtn.onclick = function () { closeInfo(); play(videoSrcOrChicken || fishVideoSrc); };
+                fishBtn.onclick = function () { closeInfo(); play(fishVideoSrc); };
+            } else {
+                videoWrap.classList.add('hidden');
+                chickenBtn.onclick = null;
+                fishBtn.onclick = null;
+            }
+
+            document.getElementById('infoModal').classList.remove('hidden');
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInfo() {
+            document.getElementById('infoModal').classList.add('hidden');
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+        }
+
+        function openStores() {
+            document.getElementById('storeModal').classList.remove('hidden');
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeStores() {
+            document.getElementById('storeModal').classList.add('hidden');
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+        }
+
+        window.onclick = function (event) {
+            if (event.target.id === 'videoModal') closeVideo();
+            if (event.target.id === 'infoModal') closeInfo();
+            if (event.target.id === 'storeModal') closeStores();
+        }
+    </script>
+</body>
+</html>
